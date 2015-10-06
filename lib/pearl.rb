@@ -25,7 +25,7 @@ module EpiphanPearlGem
         })
       create_request url, true
 
-      recording device
+      recording? device
     end
 
     def stop_recording(device)
@@ -34,10 +34,10 @@ module EpiphanPearlGem
         })
       create_request url, true
 
-      recording device
+      recording? device
     end
 
-    def recording(device)
+    def recording?(device)
       url = getter_url device, ["rec_enabled"]
       response = create_request url, true
       response.body.split('=')[1].strip == "on"
