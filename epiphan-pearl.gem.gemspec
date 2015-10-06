@@ -18,7 +18,16 @@ Gem::Specification.new do |s|
     "README.md"
   ]
   s.files = [
-    "README.md"
+    ".ruby-gemset",
+    ".ruby-version",
+    "Gemfile",
+    "README.md",
+    "Rakefile",
+    "VERSION",
+    "epiphan-pearl.gem.gemspec",
+    "lib/.DS_Store",
+    "lib/epiphan_pearl_gem.rb",
+    "lib/pearl.rb"
   ]
   s.homepage = "https://github.com/wooga/epiphan-pearl.gem"
   s.licenses = ["MIT"]
