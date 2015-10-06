@@ -1,4 +1,4 @@
-require_relative 'pearl'
+require_relative 'epiphan-pearl.gem/pearl'
 
 module EpiphanPearlGem
 
