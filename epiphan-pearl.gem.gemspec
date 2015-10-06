@@ -25,9 +25,8 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "epiphan-pearl.gem.gemspec",
-    "lib/.DS_Store",
-    "lib/epiphan_pearl_gem.rb",
-    "lib/pearl.rb"
+    "lib/epiphan-pearl.gem/pearl.rb",
+    "lib/epiphan_pearl_gem.rb"
   ]
   s.homepage = "https://github.com/wooga/epiphan-pearl.gem"
   s.licenses = ["MIT"]
