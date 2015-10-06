@@ -11,23 +11,14 @@ module EpiphanPearlGem
       @password = password
     end
 
-    def start_recording(device, prefix = "")
+    def set_recording(device, recording, prefix = "")
       url = setter_url(device, {
         "rec_prefix" => prefix,
-        "rec_enabled" => "on"
+        "rec_enabled" => recording ? "on" : ""
         })
       create_request url, true
 
-      recording? device
-    end
-
-    def stop_recording(device)
-      url = setter_url(device, {
-        "rec_enabled" => ""
-        })
-      create_request url, true
-
-      !(recording? device)
+      recording == recording?(device)
     end
 
     def recording?(device)
