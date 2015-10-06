@@ -1,10 +1,3 @@
-
-    #http://<address>/admin/recorder1/set_params.cgi?rec_prefix=eventId&rec_enabled=on
-    #http://<address>/admin/recorder1/set_params.cgi?rec_enabled=
-    #http://<address>/admin/recorder1/get_params.cgi?rec_enabled
-    #user admin
-    #passwort
-
 require "net/http"
 require "uri"
 
