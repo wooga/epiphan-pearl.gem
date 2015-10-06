@@ -34,7 +34,7 @@ module EpiphanPearlGem
         })
       create_request url, true
 
-      recording? device
+      !(recording? device)
     end
 
     def recording?(device)
