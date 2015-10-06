@@ -16,7 +16,7 @@ require 'rake'
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
-  gem.name = "epiphan-pearl.gem"
+  gem.name = "epiphan-pearl"
   gem.homepage = "https://github.com/wooga/epiphan-pearl.gem"
   gem.license = "MIT"
   gem.summary = %Q{Provide a very thin wrapper above the epiphan peark third party API.}
@@ -31,7 +31,7 @@ desc "Start a pry shell and load all gems"
 task :shell do
   require 'pry'
   $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), 'lib'))
-  require_relative 'lib/epiphan_pearl_gem'
+  require_relative 'lib/epiphan_pearl'
   Pry.editor = "emacs"
   Pry.start
 end
