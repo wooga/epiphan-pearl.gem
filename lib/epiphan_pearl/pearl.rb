@@ -40,6 +40,7 @@ module EpiphanPearl
         response = http.request(request)
 
         raise "Epiphan Pearl Authentication Exception" if response.code == "401"
+        raise "Epiphan Pearl Unknown Device Exception" if response.code == "404"
         raise "Epiphan Pearl Unknown Parameter Exception" if response.body.split('Unknown parameter').size > 1
 
         response
