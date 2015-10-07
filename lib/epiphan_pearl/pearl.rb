@@ -5,6 +5,9 @@ module EpiphanPearl
   class Pearl
     attr_accessor :ip, :username, :password
 
+    @@error = nil
+    @@new_error = false
+
     def initialize(ip = "0.0.0.0", username = "admin", password = "")
       @ip = ip
       @username = username
@@ -12,7 +15,12 @@ module EpiphanPearl
     end
 
     def self.error
-      @@error
+      begin
+        @@error
+      ensure
+        @@new_error = false
+        @@error = nil
+      end
     end
 
     def set_recording(device, recording, prefix = nil)
@@ -24,7 +32,7 @@ module EpiphanPearl
       url = setter_url(device, params)
       create_request url, true
 
-      @@error.nil? ? false : recording == recording?(device)
+      @@new_error ? @@new_error = false : recording == recording?(device)
     end
 
     def recording?(device)
@@ -43,10 +51,14 @@ module EpiphanPearl
       if send
         response = http.request(request)
 
-        @@error = nil
-        @@error = :authentication_error     if response.code == "401"
-        @@error = :unknown_device_error     if response.code == "404"
-        @@error = :unknown_parameter_error  if response.body.split('Unknown parameter').size > 1
+        error = :authentication_error     if response.code == "401"
+        error = :unknown_device_error     if response.code == "404"
+        error = :unknown_parameter_error  if response.body.split('Unknown parameter').size > 1
+
+        if !error.nil?
+          @@new_error = true
+          @@error = error
+        end
 
         response
       else
