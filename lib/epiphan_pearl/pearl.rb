@@ -11,6 +11,10 @@ module EpiphanPearl
       @password = password
     end
 
+    def self.error
+      @@error
+    end
+
     def set_recording(device, recording, prefix = nil)
       params = {
         "rec_enabled" => recording ? "on" : ""
@@ -20,13 +24,13 @@ module EpiphanPearl
       url = setter_url(device, params)
       create_request url, true
 
-      recording == recording?(device)
+      @@error.nil? ? false : recording == recording?(device)
     end
 
     def recording?(device)
       url = getter_url device, ["rec_enabled"]
       response = create_request url, true
-      response.body.split('=')[1].strip == "on"
+      response.body.split('=')[1].nil? ? false : response.body.split('=')[1].strip == "on"
     end
 
     def create_request(url, send = false)
@@ -39,9 +43,10 @@ module EpiphanPearl
       if send
         response = http.request(request)
 
-        raise "Epiphan Pearl Authentication Exception" if response.code == "401"
-        raise "Epiphan Pearl Unknown Device Exception" if response.code == "404"
-        raise "Epiphan Pearl Unknown Parameter Exception" if response.body.split('Unknown parameter').size > 1
+        @@error = nil
+        @@error = :authentication_error     if response.code == "401"
+        @@error = :unknown_device_error     if response.code == "404"
+        @@error = :unknown_parameter_error  if response.body.split('Unknown parameter').size > 1
 
         response
       else
