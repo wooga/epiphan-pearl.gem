@@ -16,11 +16,11 @@ require 'rake'
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
-  gem.name = "epiphan-pearl"
+  gem.name = "epiphan_pearl"
   gem.homepage = "https://github.com/wooga/epiphan-pearl.gem"
   gem.license = "MIT"
-  gem.summary = %Q{Provide a very thin wrapper above the epiphan peark third party API.}
-  gem.description = %Q{Provide a very thin wrapper above the epiphan peark third party API.}
+  gem.summary = %Q{Provide a very thin wrapper above the epiphan pearl third party API.}
+  gem.description = %Q{Provide a very thin wrapper above the epiphan pearl third party API.}
   gem.email = "tobias.wermuth@wooga.net"
   gem.authors = ["Tobias Wermuth"]
   # dependencies defined in Gemfile

@@ -1,7 +1,7 @@
 require "net/http"
 require "uri"
 
-module EpiphanPearlGem
+module EpiphanPearl
   class Pearl
     attr_accessor :ip, :username, :password
 
@@ -11,11 +11,13 @@ module EpiphanPearlGem
       @password = password
     end
 
-    def set_recording(device, recording, prefix = "")
-      url = setter_url(device, {
-        "rec_prefix" => prefix,
+    def set_recording(device, recording, prefix = nil)
+      params = {
         "rec_enabled" => recording ? "on" : ""
-        })
+        }
+      params["rec_prefix"] = prefix if !prefix.nil?
+
+      url = setter_url(device, params)
       create_request url, true
 
       recording == recording?(device)
