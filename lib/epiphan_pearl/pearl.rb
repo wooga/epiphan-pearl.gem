@@ -3,16 +3,9 @@ require "uri"
 
 module EpiphanPearl
   class Pearl
-    attr_accessor :ip, :username, :password
 
     @@error = nil
     @@new_error = false
-
-    def initialize(ip = "0.0.0.0", username = "admin", password = "")
-      @ip = ip
-      @username = username
-      @password = password
-    end
 
     def self.error
       begin
@@ -23,7 +16,7 @@ module EpiphanPearl
       end
     end
 
-    def set_recording(device, recording, prefix = nil)
+    def self.set_recording(device, recording, prefix = nil)
       params = {
         "rec_enabled" => recording ? "on" : ""
         }
@@ -35,18 +28,18 @@ module EpiphanPearl
       @@new_error ? @@new_error = false : recording == recording?(device)
     end
 
-    def recording?(device)
+    def self.recording?(device)
       url = getter_url device, ["rec_enabled"]
       response = create_request url, true
       response.body.split('=')[1].nil? ? false : response.body.split('=')[1].strip == "on"
     end
 
-    def create_request(url, send = false)
+    def self.create_request(url, send = false)
       uri = URI.parse url
-      http = Net::HTTP.new ip
+      http = Net::HTTP.new EpiphanPearl.configuration.ip
 
       request = Net::HTTP::Get.new uri.request_uri
-      request.basic_auth username, password
+      request.basic_auth EpiphanPearl.configuration.username, EpiphanPearl.configuration.password
 
       if send
         response = http.request(request)
@@ -66,14 +59,14 @@ module EpiphanPearl
       end
     end
 
-    def getter_url(device, params)
+    def self.getter_url(device, params)
       params = params.join('&')
-      "http://#{@ip}/#{@username}/#{device}/get_params.cgi?#{params}"
+      "http://#{EpiphanPearl.configuration.ip}/#{EpiphanPearl.configuration.username}/#{device}/get_params.cgi?#{params}"
     end
 
-    def setter_url(device, params)
+    def self.setter_url(device, params)
       params = params.map{|k,v| "#{k}=#{v}"}.join('&')
-      "http://#{@ip}/#{@username}/#{device}/set_params.cgi?#{params}"
+      "http://#{EpiphanPearl.configuration.ip}/#{EpiphanPearl.configuration.username}/#{device}/set_params.cgi?#{params}"
     end
   end
 end
