@@ -32,7 +32,7 @@ module EpiphanPearl
         EpiphanPearl::Error.set :unknown_key_error
       end
 
-      EpiphanPearl::Error.new_error ? false : result
+      EpiphanPearl::Error.new_error ? nil : result
     end
 
     @@commands = {
