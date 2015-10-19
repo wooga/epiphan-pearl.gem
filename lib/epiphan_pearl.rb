@@ -1,5 +1,8 @@
-require_relative 'epiphan_pearl/pearl'
 require_relative 'epiphan_pearl/configuration'
+require_relative 'epiphan_pearl/error'
+require_relative 'epiphan_pearl/network'
+require_relative 'epiphan_pearl/parameter'
+require_relative 'epiphan_pearl/recording'
 
 module EpiphanPearl
   extend self
