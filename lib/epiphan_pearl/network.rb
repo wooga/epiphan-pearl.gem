@@ -4,7 +4,6 @@ require "uri"
 module EpiphanPearl
   class Network
     def self.create_request(device, params, is_setter, send = false)
-      puts generate_url device, params, is_setter
       uri = URI.parse(generate_url device, params, is_setter)
       http = Net::HTTP.new EpiphanPearl.configuration.ip
 

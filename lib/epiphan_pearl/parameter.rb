@@ -17,7 +17,6 @@ module EpiphanPearl
         EpiphanPearl::Error.set :unknown_key_error
       end
 
-      puts "#{result} == #{value}"
       EpiphanPearl::Error.new_error ? false : result == value
     end
 
