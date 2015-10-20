@@ -1,5 +1,20 @@
 module EpiphanPearl
   class Parameter
+    def self.get(device, key)
+      command = @@commands[key]
+      result = ""
+
+      if !command.nil?
+        params = { command[:key] => "" }
+        response = EpiphanPearl::Network.create_request device, params, false, true
+        result = command[:result_processing].call response.body.split('=').last.strip
+      else
+        EpiphanPearl::Error.set :unknown_key_error
+      end
+
+      EpiphanPearl::Error.new_error ? nil : result
+    end
+
     def self.set(device, key, value)
       command = @@commands[key]
       result = ""
@@ -18,21 +33,6 @@ module EpiphanPearl
       end
 
       EpiphanPearl::Error.new_error ? false : result == value
-    end
-
-    def self.get(device, key)
-      command = @@commands[key]
-      result = ""
-
-      if !command.nil?
-        params = { command[:key] => "" }
-        response = EpiphanPearl::Network.create_request device, params, false, true
-        result = command[:result_processing].call response.body.split('=').last.strip
-      else
-        EpiphanPearl::Error.set :unknown_key_error
-      end
-
-      EpiphanPearl::Error.new_error ? nil : result
     end
 
     @@commands = {

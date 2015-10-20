@@ -28,7 +28,7 @@ class NetworkTest < MiniTest::Test
         assert_equal "param=value", response.body
       end
 
-      should 'detect correct errors' do
+      should 'throw correct errors' do
         FakeWeb.register_uri(:get, "http://username:password@123.456.789.012/username/recorder/set_params.cgi?param=value", :status => ["401"])
         EpiphanPearl::Network.create_request("recorder", {"param" => "value"}, true, true)
         assert_equal :authentication_error, EpiphanPearl::Error.last
