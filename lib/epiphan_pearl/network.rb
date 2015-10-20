@@ -12,7 +12,6 @@ module EpiphanPearl
 
       if send
         response = http.request(request)
-
         EpiphanPearl::Error.set(:authentication_error)     if response.code == "401"
         EpiphanPearl::Error.set(:unknown_device_error)     if response.code == "404"
         EpiphanPearl::Error.set(:unknown_parameter_error)  if response.body.split('Unknown parameter').size > 1
