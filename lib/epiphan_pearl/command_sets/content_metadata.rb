@@ -1,58 +1,18 @@
 module EpiphanPearl
-  class ContentMetadata
-    PARAMETERS = {
-      "author" => {
-        :key => "author",
-        :value_evaluation => Proc.new do |value|
-            value.to_s
-          end,
-        :result_processing => Proc.new do |result|
-            result
-          end
+  class ContentMetadata < CommandSet
+    register_parameters [
+      {
+        :key => "author"
       },
-      "comment" => {
-        :key => "comment",
-        :value_evaluation => Proc.new do |value|
-            value.to_s
-          end,
-        :result_processing => Proc.new do |result|
-            result
-          end
+      {
+        :key => "comment"
       },
-      "copyright" => {
-        :key => "copyright",
-        :value_evaluation => Proc.new do |value|
-            value.to_s
-          end,
-        :result_processing => Proc.new do |result|
-            result
-          end
+      {
+        :key => "copyright"
       },
-      "title" => {
-        :key => "title",
-        :value_evaluation => Proc.new do |value|
-            value.to_s
-          end,
-        :result_processing => Proc.new do |result|
-            result
-          end
+      {
+        :key => "title"
       }
-    }
-
-    def self.author(device, value = nil)
-      EpiphanPearl::Base.toggle(device, PARAMETERS["author"], value)
-    end
-
-    def self.comment(device, value = nil)
-      EpiphanPearl::Base.toggle(device, PARAMETERS["comment"], value)
-    end
-
-    def self.copyright(device, value = nil)
-      EpiphanPearl::Base.toggle(device, PARAMETERS["copyright"], value)
-    end
-
-    def self.title(device, value = nil)
-      EpiphanPearl::Base.toggle(device, PARAMETERS["title"], value)
-    end
+    ]
   end
 end

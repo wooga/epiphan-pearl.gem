@@ -1,4 +1,5 @@
 require_relative 'epiphan_pearl/base'
+require_relative 'epiphan_pearl/command_set'
 require_relative 'epiphan_pearl/configuration'
 
 require_relative 'epiphan_pearl/command_sets/audio'

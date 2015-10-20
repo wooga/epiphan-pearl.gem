@@ -1,57 +1,22 @@
 module EpiphanPearl
-  class Broadcast
-    PARAMETERS = {
-      "bcast_disabled" => {
+  class Broadcast < CommandSet
+    register_parameters [
+      {
         :key => "bcast_disabled",
-        :value_evaluation => Proc.new do |value|
-            if [true, false].include?(value)
-              value ? "on" : ""
-            else
-              nil
-            end
-          end,
-        :result_processing => Proc.new do |result|
-            result == "on"
-          end
+        :display_name => "disabled",
+        :value_class => [TrueClass, FalseClass]
       },
-      "rtsp_port" => {
+      {
         :key => "rtsp_port",
-        :value_evaluation => Proc.new do |value|
-            if ([*1000..65535] - [5557]).include?(value)
-              value
-            else
-              nil
-            end
-          end,
-        :result_processing => Proc.new do |result|
-            result.to_i
-          end
+        :possible_values => [*1000..65535] - [5557],
+        :value_class => [Integer]
       },
-      "streamport" => {
+      {
         :key => "streamport",
-        :value_evaluation => Proc.new do |value|
-            if ([*1000..65535] - [5557]).include?(value)
-              value
-            else
-              nil
-            end
-          end,
-        :result_processing => Proc.new do |result|
-            result.to_i
-          end
+        :display_name => "stream_port",
+        :possible_values => [*1000..65535] - [5557],
+        :value_class => [Integer]
       }
-    }
-
-    def self.enabled(device, value = nil)
-      EpiphanPearl::Base.toggle(device, PARAMETERS["bcast_disabled"], !value)
-    end
-
-    def self.rtsp_port(device, value = nil)
-      EpiphanPearl::Base.toggle(device, PARAMETERS["rtsp_port"], value)
-    end
-
-    def self.streamport(device, value = nil)
-      EpiphanPearl::Base.toggle(device, PARAMETERS["streamport"], value)
-    end
+    ]
   end
 end

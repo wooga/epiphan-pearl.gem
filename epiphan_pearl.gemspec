@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
     "epiphan_pearl.gemspec",
     "lib/epiphan_pearl.rb",
     "lib/epiphan_pearl/base.rb",
+    "lib/epiphan_pearl/command_set.rb",
     "lib/epiphan_pearl/command_sets/audio.rb",
     "lib/epiphan_pearl/command_sets/broadcast.rb",
     "lib/epiphan_pearl/command_sets/channel_encoder.rb",

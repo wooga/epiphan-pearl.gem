@@ -1,121 +1,41 @@
 module EpiphanPearl
-  class TouchScreen
-    PARAMETERS = {
-      "touchscreen_backlight" => {
+  class TouchScreen < CommandSet
+    register_parameters [
+      {
         :key => "touchscreen_backlight",
-        :value_evaluation => Proc.new do |value|
-            if [*0..255].include?(value)
-              value
-            else
-              nil
-            end
-          end,
-        :result_processing => Proc.new do |result|
-            result.to_i
-          end
+        :display_name => "backlight",
+        :possible_values => [*0..255],
+        :value_class => [Integer]
       },
-      "touchscreen_enabled" => {
+      {
         :key => "touchscreen_enabled",
-        :value_evaluation => Proc.new do |value|
-            if [true, false].include?(value)
-              value ? "on" : ""
-            else
-              nil
-            end
-          end,
-        :result_processing => Proc.new do |result|
-            result == "on"
-          end
+        :display_name => "enabled"
       },
-      "touchscreen_info" => {
+      {
         :key => "touchscreen_info",
-        :value_evaluation => Proc.new do |value|
-            if [true, false].include?(value)
-              value ? "on" : ""
-            else
-              nil
-            end
-          end,
-        :result_processing => Proc.new do |result|
-            result == "on"
-          end
+        :display_name => "info",
+        :value_class => [TrueClass, FalseClass]
       },
-      "touchscreen_preview" => {
+      {
         :key => "touchscreen_preview",
-        :value_evaluation => Proc.new do |value|
-            if [true, false].include?(value)
-              value ? "on" : ""
-            else
-              nil
-            end
-          end,
-        :result_processing => Proc.new do |result|
-            result == "on"
-          end
+        :display_name => "preview",
+        :value_class => [TrueClass, FalseClass]
       },
-      "touchscreen_recordctrl" => {
+      {
         :key => "touchscreen_recordctrl",
-        :value_evaluation => Proc.new do |value|
-            if [true, false].include?(value)
-              value ? "on" : ""
-            else
-              nil
-            end
-          end,
-        :result_processing => Proc.new do |result|
-            result == "on"
-          end
+        :display_name => "record_control",
+        :value_class => [TrueClass, FalseClass]
       },
-      "touchscreen_settings" => {
+      {
         :key => "touchscreen_settings",
-        :value_evaluation => Proc.new do |value|
-            if [true, false].include?(value)
-              value ? "on" : ""
-            else
-              nil
-            end
-          end,
-        :result_processing => Proc.new do |result|
-            result == "on"
-          end
+        :display_name => "settings",
+        :value_class => [TrueClass, FalseClass]
       },
-      "touchscreen_timeout" => {
+      {
         :key => "touchscreen_timeout",
-        :value_evaluation => Proc.new do |value|
-            value.is_a?(Integer) ? value : nil
-          end,
-        :result_processing => Proc.new do |result|
-            result.to_i
-          end
+        :display_name => "timeout",
+        :value_class => [Integer]
       }
-    }
-
-    def self.backlight(device, value = nil)
-      EpiphanPearl::Base.toggle(device, PARAMETERS["touchscreen_backlight"], value)
-    end
-
-    def self.enabled(device, value = nil)
-      EpiphanPearl::Base.toggle(device, PARAMETERS["touchscreen_enabled"], value)
-    end
-
-    def self.info(device, value = nil)
-      EpiphanPearl::Base.toggle(device, PARAMETERS["touchscreen_info"], value)
-    end
-
-    def self.preview(device, value = nil)
-      EpiphanPearl::Base.toggle(device, PARAMETERS["touchscreen_preview"], value)
-    end
-
-    def self.record_control(device, value = nil)
-      EpiphanPearl::Base.toggle(device, PARAMETERS["touchscreen_recordctrl"], value)
-    end
-
-    def self.settings(device, value = nil)
-      EpiphanPearl::Base.toggle(device, PARAMETERS["touchscreen_settings"], value)
-    end
-
-    def self.timeout(device, value = nil)
-      EpiphanPearl::Base.toggle(device, PARAMETERS["touchscreen_timeout"], value)
-    end
+    ]
   end
 end

@@ -1,92 +1,33 @@
 module EpiphanPearl
-  class RtspAnnouncement
-    PARAMETERS = {
-      "announce_by_tcp" => {
+  class RtspAnnouncement < CommandSet
+    register_parameters [
+      {
         :key => "announce_by_tcp",
-        :value_evaluation => Proc.new do |value|
-            if [true, false].include?(value)
-              value ? "on" : ""
-            else
-              nil
-            end
-          end,
-        :result_processing => Proc.new do |result|
-            result == "on"
-          end
+        :display_name => "use_tcp",
+        :value_class => [TrueClass, FalseClass]
       },
-      "announce_host" => {
+      {
         :key => "announce_host",
-        :value_evaluation => Proc.new do |value|
-            value.to_s
-          end,
-        :result_processing => Proc.new do |result|
-            result
-          end
+        :display_name => "host"
       },
-      "announce_name" => {
+      {
         :key => "announce_name",
-        :value_evaluation => Proc.new do |value|
-            value.to_s
-          end,
-        :result_processing => Proc.new do |result|
-            result
-          end
+        :display_name => "name"
       },
-      "announce_password" => {
+      {
         :key => "announce_password",
-        :value_evaluation => Proc.new do |value|
-            value.to_s
-          end,
-        :result_processing => Proc.new do |result|
-            result
-          end
+        :display_name => "password"
       },
-      "announce_port" => {
+      {
         :key => "announce_port",
-        :value_evaluation => Proc.new do |value|
-            if ([*1000..65535] - [5557]).include?(value)
-              value
-            else
-              nil
-            end
-          end,
-        :result_processing => Proc.new do |result|
-            result.to_i
-          end
+        :display_name => "port",
+        :possible_values => [*1000..65535] - [5557],
+        :value_class => [Integer]
       },
-      "announce_username" => {
+      {
         :key => "announce_username",
-        :value_evaluation => Proc.new do |value|
-            value.to_s
-          end,
-        :result_processing => Proc.new do |result|
-            result
-          end
+        :display_name => "username"
       }
-    }
-
-    def self.use_tcp(device, value = nil)
-      EpiphanPearl::Base.toggle(device, PARAMETERS["announce_by_tcp"], value)
-    end
-
-    def self.host(device, value = nil)
-      EpiphanPearl::Base.toggle(device, PARAMETERS["announce_host"], value)
-    end
-
-    def self.name(device, value = nil)
-      EpiphanPearl::Base.toggle(device, PARAMETERS["announce_name"], value)
-    end
-
-    def self.password(device, value = nil)
-      EpiphanPearl::Base.toggle(device, PARAMETERS["announce_password"], value)
-    end
-
-    def self.port(device, value = nil)
-      EpiphanPearl::Base.toggle(device, PARAMETERS["announce_port"], value)
-    end
-
-    def self.username(device, value = nil)
-      EpiphanPearl::Base.toggle(device, PARAMETERS["announce_username"], value)
-    end
+    ]
   end
 end

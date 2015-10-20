@@ -1,23 +1,12 @@
 module EpiphanPearl
-  class StreamPublishing
-    PARAMETERS = {
+  class StreamPublishing < CommandSet
+    register_parameters [
       "publish_type" => {
         :key => "publish_type",
-        :value_evaluation => Proc.new do |value|
-            if [*0..8].include?(value)
-              value
-            else
-              nil
-            end
-          end,
-        :result_processing => Proc.new do |result|
-            result.to_i
-          end
+        :display_value => "type",
+        :possible_values => [*0..8],
+        :value_class => [Integer]
       }
-    }
-
-    def self.publish_type(device, value = nil)
-      EpiphanPearl::Base.toggle(device, PARAMETERS["publish_type"], value)
-    end
+    ]
   end
 end
