@@ -4,13 +4,11 @@ require "uri"
 module EpiphanPearl
   class Base
     def self.set(device, parameter, value)
-      result = ""
-
       unless parameter[:value_class].nil?
-        raise "Invalid Value Class Exception - should be #{parameter[:value_class]}" \
-          if parameter[:value_class].select {|clazz| value.is_a? clazz}.size == 0
+        raise "Invalid Value Class Exception - should be a #{parameter[:value_class]}" \
+          if parameter[:value_class].select { |clazz| value.is_a? clazz }.size == 0
 
-        (value = value ? "on" : "" ) if parameter[:value_class].first == TrueClass
+        value = value ? "on" : "" if parameter[:value_class].first == TrueClass
       end
 
       unless parameter[:value_evaluation].nil?
@@ -21,7 +19,8 @@ module EpiphanPearl
 
       unless parameter[:possible_values].nil?
         raise "Invalid Value Exception - " +
-              "value should be in #{parameter[:possible_values]}" unless parameter[:possible_values].include?(value)
+              "value should be in #{parameter[:possible_values]}" \
+              unless parameter[:possible_values].include?(value)
       end
 
       params = { parameter[:key] => value.to_s }
@@ -37,7 +36,7 @@ module EpiphanPearl
       response = create_request device, params, false, true
       result = response.body.split('=').last.strip
 
-      result = parameter[:result_processing].call(result) unless parameter[:result_processing].nil?
+      result = parameter[:result_processing].call result unless parameter[:result_processing].nil?
 
       unless parameter[:value_class].nil?
         result = result == "on" if parameter[:value_class].first == TrueClass
@@ -48,7 +47,6 @@ module EpiphanPearl
     end
 
     def self.create_request(device, params, is_setter, send = false)
-      puts generate_url device, params, is_setter
       uri = URI.parse(generate_url device, params, is_setter)
       http = Net::HTTP.new EpiphanPearl.configuration.ip
 
@@ -58,10 +56,9 @@ module EpiphanPearl
       if send
         response = http.request(request)
 
-        raise "EpiphanPearl Gem: Authentication exception"    if response.code == "401"
-        raise "EpiphanPearl Gem: Unknown Device Exception"    if response.code == "404"
-
-        raise :unknown_parameter_error  if response.body.split('Unknown parameter').size > 1
+        raise "Authentication Exception"      if response.code == "401"
+        raise "Unknown Device Exception"      if response.code == "404"
+        raise "Unknown Parameter Exception"   if response.body.split('Unknown parameter').size > 1
 
         response
       else
