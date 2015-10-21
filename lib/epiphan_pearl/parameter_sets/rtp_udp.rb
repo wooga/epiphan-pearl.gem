@@ -1,19 +1,19 @@
 module EpiphanPearl
-  class Broadcast < CommandSet
+  class RtpUdp < ParameterSet
     register_parameters [
       {
-        :key => "bcast_disabled",
-        :display_name => "disabled",
-        :value_class => [TrueClass, FalseClass]
+        :key => "unicast_address",
+        :display_name => "address"
       },
       {
-        :key => "rtsp_port",
+        :key => "unicast_aport",
+        :display_name => "audio_port",
         :possible_values => [*1000..65535] - [5557],
         :value_class => [Integer]
       },
       {
-        :key => "streamport",
-        :display_name => "stream_port",
+        :key => "unicast_vport",
+        :display_name => "video_port",
         :possible_values => [*1000..65535] - [5557],
         :value_class => [Integer]
       }

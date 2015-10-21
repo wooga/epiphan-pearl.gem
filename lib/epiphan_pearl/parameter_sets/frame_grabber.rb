@@ -1,5 +1,5 @@
 module EpiphanPearl
-  class FrameGrabber < CommandSet
+  class FrameGrabber < ParameterSet
     register_parameters [
       {
         :key => "gain",

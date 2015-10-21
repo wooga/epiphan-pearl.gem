@@ -1,5 +1,5 @@
 module EpiphanPearl
-  class RtspAnnouncement < CommandSet
+  class RtspAnnouncement < ParameterSet
     register_parameters [
       {
         :key => "announce_by_tcp",

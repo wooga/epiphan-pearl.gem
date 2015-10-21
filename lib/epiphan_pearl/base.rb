@@ -18,7 +18,7 @@ module EpiphanPearl
       end
 
       unless parameter[:possible_values].nil?
-        raise "Invalid Value Exception - " +
+        raise "Value Not In Approved Possibilities Exception - " +
               "value should be in #{parameter[:possible_values]}" \
               unless parameter[:possible_values].include?(value)
       end
@@ -67,9 +67,9 @@ module EpiphanPearl
     end
   private
     def self.generate_url(device, params, is_setter)
-      params    = URI.escape params.map{|k,v| "#{k}=#{v}"}.join('&')
-      username  = URI.escape EpiphanPearl.configuration.username
-      device    = URI.escape device
+      params    = params.map{|k,v| "#{CGI.escape k}=#{CGI.escape v}"}.join('&')
+      username  = CGI.escape EpiphanPearl.configuration.username
+      device    = CGI.escape device
       "http://#{EpiphanPearl.configuration.ip}/#{username}/#{device}/#{is_setter ? 'set' : 'get'}_params.cgi?#{params}"
     end
   end

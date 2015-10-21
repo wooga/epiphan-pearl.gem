@@ -1,5 +1,5 @@
 module EpiphanPearl
-  class ChannelEncoder < CommandSet
+  class ChannelEncoder < ParameterSet
     register_parameters [
       {
         :key => "autoframesize",

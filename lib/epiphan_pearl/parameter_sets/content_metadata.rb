@@ -1,5 +1,5 @@
 module EpiphanPearl
-  class ContentMetadata < CommandSet
+  class ContentMetadata < ParameterSet
     register_parameters [
       {
         :key => "author"

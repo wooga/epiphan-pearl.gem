@@ -1,5 +1,5 @@
 module EpiphanPearl
-  class IpAccessControl < CommandSet
+  class IpAccessControl < ParameterSet
     register_parameters [
       {
         :key => "allowips",

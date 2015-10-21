@@ -1,5 +1,5 @@
 module EpiphanPearl
-  class Upnp < CommandSet
+  class Upnp < ParameterSet
     register_parameters [
       {
         :key => "share_archive",

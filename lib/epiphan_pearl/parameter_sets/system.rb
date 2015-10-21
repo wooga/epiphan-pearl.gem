@@ -1,5 +1,5 @@
 module EpiphanPearl
-  class System < CommandSet
+  class System < ParameterSet
     register_parameters [
       {
         :key => "firmware_version",

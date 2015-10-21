@@ -1,5 +1,5 @@
 module EpiphanPearl
-  class ChannelLayout < CommandSet
+  class ChannelLayout < ParameterSet
     register_parameters [
       {
         :key => "active_layout",

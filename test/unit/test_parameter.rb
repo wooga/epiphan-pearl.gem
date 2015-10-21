@@ -29,7 +29,7 @@ class ParameterTest < MiniTest::Test
         error = assert_raises RuntimeError do
           EpiphanPearl::ChannelEncoder.new("recorder").video_buffer_mode = -1
         end
-        assert_equal "Invalid Value Exception - value should be in [1, 2]", error.message
+        assert_equal "Value Not In Approved Possibilities Exception - value should be in [1, 2]", error.message
       end
     end
   end

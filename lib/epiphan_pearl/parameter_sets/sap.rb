@@ -1,5 +1,5 @@
 module EpiphanPearl
-  class Sap < CommandSet
+  class Sap < ParameterSet
     register_parameters [
       {
         :key => "sap",

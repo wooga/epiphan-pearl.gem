@@ -1,5 +1,5 @@
 module EpiphanPearl
-  class TouchScreen < CommandSet
+  class TouchScreen < ParameterSet
     register_parameters [
       {
         :key => "touchscreen_backlight",

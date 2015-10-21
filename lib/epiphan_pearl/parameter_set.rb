@@ -1,5 +1,5 @@
 module EpiphanPearl
-  class CommandSet
+  class ParameterSet
     def initialize(device)
       @device = device
     end

@@ -1,5 +1,5 @@
 module EpiphanPearl
-  class Recording < CommandSet
+  class Recording < ParameterSet
     register_parameters [
       {
         :key => "rec_enabled",

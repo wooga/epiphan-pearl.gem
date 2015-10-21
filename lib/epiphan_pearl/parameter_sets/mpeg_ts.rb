@@ -1,5 +1,5 @@
 module EpiphanPearl
-  class MpegTs < CommandSet
+  class MpegTs < ParameterSet
     register_parameters [
       {
         :key => "unicast_address",

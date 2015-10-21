@@ -1,5 +1,5 @@
 module EpiphanPearl
-  class StreamPublishing < CommandSet
+  class StreamPublishing < ParameterSet
     register_parameters [
       "publish_type" => {
         :key => "publish_type",

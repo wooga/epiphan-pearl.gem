@@ -1,5 +1,5 @@
 module EpiphanPearl
-  class RtmpPush < CommandSet
+  class RtmpPush < ParameterSet
     register_parameters [
       {
         :key => "announce_host",

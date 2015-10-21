@@ -1,5 +1,5 @@
 module EpiphanPearl
-  class HttpServer < CommandSet
+  class HttpServer < ParameterSet
     register_parameters [
       {
         :key => "http_port",

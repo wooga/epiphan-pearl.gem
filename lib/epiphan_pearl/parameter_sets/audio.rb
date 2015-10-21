@@ -1,5 +1,5 @@
 module EpiphanPearl
-  class Audio < CommandSet
+  class Audio < ParameterSet
     register_parameters [
       {
         :key => "audio",
