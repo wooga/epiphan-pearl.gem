@@ -3,30 +3,33 @@ require_relative '../test_helper.rb'
 class ParameterTest < MiniTest::Test
   context 'parameter' do
     context 'getter' do
-      should 'return correct value' do
-        FakeWeb.register_uri(:get, "http://username:password@123.456.789.012/username/recorder/get_params.cgi?vendor=", :body => "vendor=epiphan")
-        assert_equal "epiphan", EpiphanPearl::Parameter.get("recorder", "vendor")
-      end
-
-      should 'throw correct errors' do
-        assert_equal nil, EpiphanPearl::Parameter.get("recorder", "unknown_key")
-        assert_equal :unknown_key_error, EpiphanPearl::Error.last
+      should 'return correct value with correct class' do
+        FakeWeb.register_uri(:get, "http://username:password@123.456.789.012/username/recorder/get_params.cgi?rec_sizelimit=", :body => "rec_sizelimit=1")
+        assert_equal 1, EpiphanPearl::Recording.new("recorder").size_limit
       end
     end
 
     context 'setter' do
       should 'set correct value' do
-        FakeWeb.register_uri(:get, "http://username:password@123.456.789.012/username/recorder/get_params.cgi?frmcheck_enabled=", :body => "frmcheck_enabled=on")
-        FakeWeb.register_uri(:get, "http://username:password@123.456.789.012/username/recorder/set_params.cgi?frmcheck_enabled=on", :body => "frmcheck_enabled=on")
-        assert_equal true, EpiphanPearl::Parameter.set("recorder", "frmcheck_enabled", true)
+        FakeWeb.register_uri(:get, "http://username:password@123.456.789.012/username/recorder/set_params.cgi?rec_sizelimit=1", :body => "")
+        assert_equal 1, EpiphanPearl::Recording.new("recorder").size_limit = 1
       end
 
       should 'throw correct errors' do
-        assert_equal false, EpiphanPearl::Parameter.set("recorder", "unknown_key", "value")
-        assert_equal :unknown_key_error, EpiphanPearl::Error.last
+        error = assert_raises RuntimeError do
+          EpiphanPearl::Recording.new("recorder").size_limit = "string"
+        end
+        assert_equal "Invalid Value Class Exception - should be a [Integer]", error.message
 
-        assert_equal false, EpiphanPearl::Parameter.set("recorder", "firmware_version", "value")
-        assert_equal :unknown_value_error, EpiphanPearl::Error.last
+        error = assert_raises RuntimeError do
+          EpiphanPearl::System.new("recorder").vendor = "string"
+        end
+        assert_equal "Invalid Value Exception", error.message
+
+        error = assert_raises RuntimeError do
+          EpiphanPearl::ChannelEncoder.new("recorder").video_buffer_mode = -1
+        end
+        assert_equal "Invalid Value Exception - value should be in [1, 2]", error.message
       end
     end
   end
