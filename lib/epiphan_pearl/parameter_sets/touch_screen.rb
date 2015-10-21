@@ -9,7 +9,8 @@ module EpiphanPearl
       },
       {
         :key => "touchscreen_enabled",
-        :display_name => "enabled"
+        :display_name => "enabled",
+        :value_class => [TrueClass, FalseClass]
       },
       {
         :key => "touchscreen_info",
