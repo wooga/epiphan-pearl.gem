@@ -2,21 +2,21 @@ module EpiphanPearl
   class Sap < ParameterSet
     register_parameters [
       {
-        :key => "sap",
+        :key          => "sap",
         :display_name => "enabled",
-        :value_class => [TrueClass, FalseClass]
+        :value_type   => EpiphanPearl::Types::Boolean
       },
       {
-        :key => "sap_channel_no",
+        :key          => "sap_channel_no",
         :display_name => "channel_number",
-        :value_class => [Integer]
+        :value_type   => EpiphanPearl::Types::Integer
       },
       {
-        :key => "sap_group",
+        :key          => "sap_group",
         :display_name => "group"
       },
       {
-        :key => "sap_ip",
+        :key          => "sap_ip",
         :display_name => "ip"
       }
     ]

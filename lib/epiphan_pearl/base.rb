@@ -4,11 +4,12 @@ require "uri"
 module EpiphanPearl
   class Base
     def self.set(device, parameter, value)
-      unless parameter[:value_class].nil?
-        raise "Invalid Value Class Exception - should be a #{parameter[:value_class]}" \
-          if parameter[:value_class].select { |clazz| value.is_a? clazz }.size == 0
+      unless parameter[:value_type].nil?
+        unless parameter[:value_type].is_value_type_of?(value)
+          raise "Invalid Value Class Exception - should be #{parameter[:value_type]}"
+        end
 
-        value = value ? "on" : "" if parameter[:value_class].first == TrueClass
+        value = value ? "on" : "" if parameter[:value_type].is_boolean?
       end
 
       unless parameter[:value_evaluation].nil?
@@ -36,14 +37,19 @@ module EpiphanPearl
       response = create_request device, params, false, true
       result = response.body.split('=').last.strip
 
-      result = parameter[:result_processing].call result unless parameter[:result_processing].nil?
+      result = if parameter[:result_processing]
+                 parameter[:result_processing].call result
+               else
+                 result
+               end
 
-      unless parameter[:value_class].nil?
-        result = result == "on" if parameter[:value_class].first == TrueClass
-        result = result.to_i    if parameter[:value_class].first == Integer
+      case true
+      when parameter[:value_type].nil?        then result
+      when parameter[:value_type].is_boolean? then result == "on"
+      when parameter[:value_type].is_integer? then result.to_i
+      else
+        result
       end
-
-      result
     end
 
     def self.create_request(device, params, is_setter, send = false)
@@ -70,7 +76,9 @@ module EpiphanPearl
       params    = params.map{|k,v| "#{CGI.escape k}=#{CGI.escape v}"}.join('&')
       username  = CGI.escape EpiphanPearl.configuration.username
       device    = CGI.escape device
-      "http://#{EpiphanPearl.configuration.ip}/#{username}/#{device}/#{is_setter ? 'set' : 'get'}_params.cgi?#{params}"
+
+      "http://#{EpiphanPearl.configuration.ip}/#{username}/#{device}"+
+        "/#{is_setter ? 'set' : 'get'}_params.cgi?#{params}"
     end
   end
 end

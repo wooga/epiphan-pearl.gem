@@ -2,9 +2,9 @@ module EpiphanPearl
   class IpAccessControl < ParameterSet
     register_parameters [
       {
-        :key => "allowips",
-        :display_name => "allowed_ips",
-        :value_class => [Array],
+        :key              => "allowips",
+        :display_name     => "allowed_ips",
+        :value_type       => EpiphanPearl::Types::Array,
         :value_evaluation => Proc.new do |value|
             value.join ","
           end,
@@ -13,9 +13,9 @@ module EpiphanPearl
           end
       },
       {
-        :key => "denyips",
-        :display_name => "denied_ips",
-        :value_class => [Array],
+        :key              => "denyips",
+        :display_name     => "denied_ips",
+        :value_type       => EpiphanPearl::Types::Array,
         :value_evaluation => Proc.new do |value|
             value.join ","
           end,

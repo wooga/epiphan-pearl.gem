@@ -2,26 +2,26 @@ module EpiphanPearl
   class Audio < ParameterSet
     register_parameters [
       {
-        :key => "audio",
+        :key          => "audio",
         :display_name => "enabled",
-        :value_class => [TrueClass, FalseClass]
+        :value_type   => EpiphanPearl::Types::Boolean
       },
       {
-        :key => "audiobitrate",
-        :display_name => "bitrate",
+        :key             => "audiobitrate",
+        :display_name    => "bitrate",
         :possible_values => [32, 64, 96, 112, 128, 160, 192],
-        :value_class => [Integer]
+        :value_type      => EpiphanPearl::Types::Integer
       },
       {
-        :key => "audiochannels",
-        :display_name => "channels",
+        :key             => "audiochannels",
+        :display_name    => "channels",
         :possible_values => [1, 2],
-        :value_class => [Integer]
+        :value_type      => EpiphanPearl::Types::Integer
       },
       {
-        :key => "audiopreset",
-        :display_name => "preset",
-        :value_class => [Hash],
+        :key              => "audiopreset",
+        :display_name     => "preset",
+        :value_type       => EpiphanPearl::Types::Hash,
         :value_evaluation => Proc.new do |value|
             if ["pcm_s161e", "libmp3lame", "libfacc"].include?(value[:codec]) &&
               [32, 64, 96, 112, 128, 160, 192].include?(value[:bitrate])
