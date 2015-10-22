@@ -31,7 +31,9 @@ module EpiphanPearl
             end
           end,
         :result_processing => Proc.new do |result|
-            {:codec => result.split(";")[0], :bitrate => result.split(";")[1].to_i}
+            { :codec   => result.split(";")[0],
+              :bitrate => result.split(";")[1].to_i
+            }
           end
       }
     ]

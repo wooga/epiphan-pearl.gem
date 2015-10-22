@@ -6,22 +6,23 @@ module EpiphanPearl
     def self.set(device, parameter, value)
       unless parameter[:value_type].nil?
         unless parameter[:value_type].is_value_type_of?(value)
-          raise "Invalid Value Class Exception - should be #{parameter[:value_type]}"
+          raise("Invalid Value Class Exception - should "+
+                "be #{parameter[:value_type]}")
         end
 
         value = value ? "on" : "" if parameter[:value_type].is_boolean?
       end
 
-      unless parameter[:value_evaluation].nil?
-        value = parameter[:value_evaluation].call value
+      value = if parameter[:value_evaluation].nil?
+                value
+              else
+                parameter[:value_evaluation].call(value)
+              end
 
-        raise "Invalid Value Exception" if value == :invalid_value_error
-      end
-
-      unless parameter[:possible_values].nil?
+      if !parameter[:possible_values].nil? &&
+          !parameter[:possible_values].include?(value)
         raise "Value Not In Approved Possibilities Exception - " +
-              "value should be in #{parameter[:possible_values]}" \
-              unless parameter[:possible_values].include?(value)
+          "value should be in #{parameter[:possible_values]}"
       end
 
       params = { parameter[:key] => value.to_s }
@@ -53,7 +54,7 @@ module EpiphanPearl
     end
 
     def self.create_request(device, params, is_setter, send = false)
-      uri = URI.parse(generate_url device, params, is_setter)
+      uri = URI.parse(generate_url(device, params, is_setter))
       http = Net::HTTP.new EpiphanPearl.configuration.ip
 
       request = Net::HTTP::Get.new uri.request_uri
@@ -71,7 +72,9 @@ module EpiphanPearl
         request
       end
     end
-  private
+
+    private
+
     def self.generate_url(device, params, is_setter)
       params    = params.map{|k,v| "#{CGI.escape k}=#{CGI.escape v}"}.join('&')
       username  = CGI.escape EpiphanPearl.configuration.username
