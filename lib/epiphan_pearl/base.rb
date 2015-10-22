@@ -26,7 +26,7 @@ module EpiphanPearl
       end
 
       params = { parameter[:key] => value.to_s }
-      create_request device, params, true, true
+      create_request(device, params, true)
 
       value
     end
@@ -35,7 +35,7 @@ module EpiphanPearl
       result = ""
 
       params = { parameter[:key] => "" }
-      response = create_request device, params, false, true
+      response = create_request(device, params, false)
       result = response.body.split('=').last.strip
 
       result = if parameter[:result_processing]
@@ -53,24 +53,20 @@ module EpiphanPearl
       end
     end
 
-    def self.create_request(device, params, is_setter, send = false)
+    def self.create_request(device, params, is_setter)
       uri = URI.parse(generate_url(device, params, is_setter))
       http = Net::HTTP.new EpiphanPearl.configuration.ip
 
       request = Net::HTTP::Get.new uri.request_uri
       request.basic_auth EpiphanPearl.configuration.username, EpiphanPearl.configuration.password
 
-      if send
-        response = http.request(request)
+      response = http.request(request)
 
-        raise "Authentication Exception"      if response.code == "401"
-        raise "Unknown Device Exception"      if response.code == "404"
-        raise "Unknown Parameter Exception"   if response.body.split('Unknown parameter').size > 1
+      raise "Authentication Exception"      if response.code == "401"
+      raise "Unknown Device Exception"      if response.code == "404"
+      raise "Unknown Parameter Exception"   if response.body.split('Unknown parameter').size > 1
 
-        response
-      else
-        request
-      end
+      response
     end
 
     private
