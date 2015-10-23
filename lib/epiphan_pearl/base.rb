@@ -4,25 +4,21 @@ require "uri"
 module EpiphanPearl
   class Base
     def self.set(device, parameter, value)
-      unless parameter[:value_type].nil?
-        unless parameter[:value_type].is_value_type_of?(value)
-          raise("Invalid Value Class Exception - should "+
-                "be #{parameter[:value_type]}")
-        end
-
-        value = value ? "on" : "" if parameter[:value_type].is_boolean?
+      if !parameter[:value_type].nil? &&
+          !parameter[:value_type].is_value_type_of?(value)
+        raise("Invalid Value Class Exception - should "+
+              "be #{parameter[:value_type]}")
       end
 
-      value = if parameter[:value_evaluation].nil?
-                value
-              else
-                parameter[:value_evaluation].call(value)
-              end
+      value = parameter[:value_type].pre_processing(value)
+
+      value_pre_process = parameter[:value_evaluation]
+      value = value_pre_process.nil? ? value : value_pre_process.call(value)
 
       if !parameter[:possible_values].nil? &&
           !parameter[:possible_values].include?(value)
-        raise "Value Not In Approved Possibilities Exception - " +
-          "value should be in #{parameter[:possible_values]}"
+        raise("Value Not In Approved Possibilities Exception - " +
+              "value should be in #{parameter[:possible_values]}")
       end
 
       params = { parameter[:key] => value.to_s }
@@ -32,25 +28,15 @@ module EpiphanPearl
     end
 
     def self.get(device, parameter)
-      result = ""
-
       params = { parameter[:key] => "" }
       response = create_request(device, params, false)
       result = response.body.split('=').last.strip
 
-      result = if parameter[:result_processing]
-                 parameter[:result_processing].call result
-               else
-                 result
-               end
+      value_pst_process = parameter[:result_processing]
+      result = value_pst_process.nil? ? result : value_pst_process.call(result)
 
-      case true
-      when parameter[:value_type].nil?        then result
-      when parameter[:value_type].is_boolean? then result == "on"
-      when parameter[:value_type].is_integer? then result.to_i
-      else
-        result
-      end
+      value_type = parameter[:value_type]
+      value_type.nil? ? result : value_type.post_processing(result)
     end
 
     def self.create_request(device, params, is_setter)
