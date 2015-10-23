@@ -47,6 +47,10 @@ module EpiphanPearl
         value.is_a? ::Integer
       end
 
+      def self.pre_processing(value)
+        value.to_i
+      end
+
       def self.post_processing(value)
         value.to_i
       end

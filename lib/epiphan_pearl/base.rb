@@ -28,9 +28,9 @@ module EpiphanPearl
     end
 
     def self.get(device, parameter)
-      params = { parameter[:key] => "" }
+      params   = { parameter[:key] => "" }
       response = create_request(device, params, false)
-      result = response.body.split('=').last.strip
+      result   = response.body.split('=').last.strip
 
       value_pst_process = parameter[:result_processing]
       result = value_pst_process.nil? ? result : value_pst_process.call(result)
@@ -40,7 +40,7 @@ module EpiphanPearl
     end
 
     def self.create_request(device, params, is_setter)
-      uri = URI.parse(generate_url(device, params, is_setter))
+      uri  = URI.parse(generate_url(device, params, is_setter))
       http = Net::HTTP.new EpiphanPearl.configuration.ip
 
       request = Net::HTTP::Get.new uri.request_uri
