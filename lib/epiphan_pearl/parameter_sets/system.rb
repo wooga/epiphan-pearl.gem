@@ -26,5 +26,9 @@ module EpiphanPearl
         :key => "description",
       }
     ]
+
+    def initialize
+      @device = nil
+    end
   end
 end

@@ -22,7 +22,7 @@ class ParameterTest < MiniTest::Test
         assert_equal "Invalid Value Class Exception - should be EpiphanPearl::Types::Integer", error.message
 
         error = assert_raises NoMethodError do
-          EpiphanPearl::System.new("recorder").vendor = "string"
+          EpiphanPearl::System.new.vendor = "string"
         end
         assert /undefined method .vendor=/ =~ error.message
 

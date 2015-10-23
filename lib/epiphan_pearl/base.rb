@@ -4,13 +4,16 @@ require "uri"
 module EpiphanPearl
   class Base
     def self.set(device, parameter, value)
-      if !parameter[:value_type].nil? &&
-          !parameter[:value_type].is_value_type_of?(value)
+      value_type = parameter[:value_type]
+
+      if !value_type.nil? && !value_type.is_value_type_of?(value)
         raise("Invalid Value Class Exception - should "+
               "be #{parameter[:value_type]}")
       end
 
-      value = parameter[:value_type].pre_processing(value)
+      if !value_type.nil?
+        value = value_type.pre_processing(value)
+      end
 
       value_pre_process = parameter[:value_evaluation]
       value = value_pre_process.nil? ? value : value_pre_process.call(value)
@@ -60,9 +63,9 @@ module EpiphanPearl
     def self.generate_url(device, params, is_setter)
       params    = params.map{|k,v| "#{CGI.escape k}=#{CGI.escape v}"}.join('&')
       username  = CGI.escape EpiphanPearl.configuration.username
-      device    = CGI.escape device
+      device    = device.nil? ? "" : "/"+CGI.escape(device)
 
-      "http://#{EpiphanPearl.configuration.ip}/#{username}/#{device}"+
+      "http://#{EpiphanPearl.configuration.ip}/#{username}#{device}"+
         "/#{is_setter ? 'set' : 'get'}_params.cgi?#{params}"
     end
   end

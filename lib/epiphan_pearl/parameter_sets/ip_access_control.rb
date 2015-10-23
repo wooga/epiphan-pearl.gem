@@ -12,5 +12,9 @@ module EpiphanPearl
         :value_type       => EpiphanPearl::Types::Array,
       }
     ]
+
+    def initialize
+      @device = nil
+    end
   end
 end

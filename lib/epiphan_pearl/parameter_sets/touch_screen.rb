@@ -38,5 +38,9 @@ module EpiphanPearl
         :value_type   => EpiphanPearl::Types::Integer
       }
     ]
+
+    def initialize
+      @device = nil
+    end
   end
 end
