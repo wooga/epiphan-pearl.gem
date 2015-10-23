@@ -19,12 +19,12 @@ class ParameterTest < MiniTest::Test
         error = assert_raises RuntimeError do
           EpiphanPearl::Recording.new("recorder").size_limit = "string"
         end
-        assert_equal "Invalid Value Class Exception - should be a [Integer]", error.message
+        assert_equal "Invalid Value Class Exception - should be EpiphanPearl::Types::Integer", error.message
 
-        error = assert_raises RuntimeError do
-          EpiphanPearl::System.new("recorder").vendor = "string"
+        error = assert_raises NoMethodError do
+          EpiphanPearl::System.new.vendor = "string"
         end
-        assert_equal "Invalid Value Exception", error.message
+        assert /undefined method .vendor=/ =~ error.message
 
         error = assert_raises RuntimeError do
           EpiphanPearl::ChannelEncoder.new("recorder").video_buffer_mode = -1

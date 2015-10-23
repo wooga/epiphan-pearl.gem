@@ -23,7 +23,7 @@ class BaseTest < MiniTest::Test
 
       should 'send correct request' do
         FakeWeb.register_uri(:get, "http://username:password@123.456.789.012/username/recorder/set_params.cgi?param=value", :body => "param=value")
-        response = EpiphanPearl::Base.create_request("recorder", {"param" => "value"}, true, true)
+        response = EpiphanPearl::Base.create_request("recorder", {"param" => "value"}, true)
 
         assert_equal "param=value", response.body
       end
@@ -31,19 +31,19 @@ class BaseTest < MiniTest::Test
       should 'throw correct errors' do
         FakeWeb.register_uri(:get, "http://username:password@123.456.789.012/username/recorder/set_params.cgi?param=value", :status => ["401"])
         error = assert_raises RuntimeError do
-          EpiphanPearl::Base.create_request("recorder", {"param" => "value"}, true, true)
+          EpiphanPearl::Base.create_request("recorder", {"param" => "value"}, true)
         end
         assert_equal "Authentication Exception", error.message
 
         FakeWeb.register_uri(:get, "http://username:password@123.456.789.012/username/recorder/set_params.cgi?param=value", :status => ["404"])
         error = assert_raises RuntimeError do
-          EpiphanPearl::Base.create_request("recorder", {"param" => "value"}, true, true)
+          EpiphanPearl::Base.create_request("recorder", {"param" => "value"}, true)
         end
         assert_equal "Unknown Device Exception", error.message
 
         FakeWeb.register_uri(:get, "http://username:password@123.456.789.012/username/recorder/set_params.cgi?param=value", :body => "<>Unknown parameter<>")
         error = assert_raises RuntimeError do
-          EpiphanPearl::Base.create_request("recorder", {"param" => "value"}, true, true)
+          EpiphanPearl::Base.create_request("recorder", {"param" => "value"}, true)
         end
         assert_equal "Unknown Parameter Exception", error.message
       end

@@ -2,8 +2,8 @@ module EpiphanPearl
   class ChannelLayout < ParameterSet
     register_parameters [
       {
-        :key => "active_layout",
-        :value_class => [Integer]
+        :key        => "active_layout",
+        :value_type => EpiphanPearl::Types::Integer
       }
     ]
   end

@@ -2,20 +2,20 @@ module EpiphanPearl
   class Broadcast < ParameterSet
     register_parameters [
       {
-        :key => "bcast_disabled",
+        :key          => "bcast_disabled",
         :display_name => "disabled",
-        :value_class => [TrueClass, FalseClass]
+        :value_type   => EpiphanPearl::Types::Boolean
       },
       {
-        :key => "rtsp_port",
+        :key             => "rtsp_port",
         :possible_values => [*1000..65535] - [5557],
-        :value_class => [Integer]
+        :value_type      => EpiphanPearl::Types::Integer
       },
       {
-        :key => "streamport",
-        :display_name => "stream_port",
+        :key             => "streamport",
+        :display_name    => "stream_port",
         :possible_values => [*1000..65535] - [5557],
-        :value_class => [Integer]
+        :value_type      => EpiphanPearl::Types::Integer
       }
     ]
   end

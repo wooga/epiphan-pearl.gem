@@ -2,28 +2,28 @@ module EpiphanPearl
   class Recording < ParameterSet
     register_parameters [
       {
-        :key => "rec_enabled",
+        :key          => "rec_enabled",
         :display_name => "enabled",
-        :value_class => [TrueClass, FalseClass]
+        :value_type   => EpiphanPearl::Types::Boolean
       },
       {
-        :key => "rec_format",
-        :display_name => "format",
+        :key             => "rec_format",
+        :display_name    => "format",
         :possible_values => ["avi", "mov", "mp4", "ts"]
       },
       {
-        :key => "rec_prefix",
+        :key          => "rec_prefix",
         :display_name => "prefix"
       },
       {
-        :key => "rec_sizelimit",
+        :key          => "rec_sizelimit",
         :display_name => "size_limit",
-        :value_class => [Integer]
+        :value_type   => EpiphanPearl::Types::Integer
       },
       {
-        :key => "rec_timelimit",
+        :key          => "rec_timelimit",
         :display_name => "time_limit",
-        :value_class => [Integer]
+        :value_type   => EpiphanPearl::Types::Integer
       }
     ]
   end
