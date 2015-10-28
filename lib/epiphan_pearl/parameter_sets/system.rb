@@ -1,3 +1,5 @@
+require 'json'
+
 module EpiphanPearl
   class System < ParameterSet
     register_parameters [
@@ -29,6 +31,26 @@ module EpiphanPearl
 
     def initialize
       @device = nil
+    end
+
+    def channel_statuses
+      uri = URI.parse("http://#{EpiphanPearl.configuration.ip}" +
+                      "/ajax/channels_status.cgi")
+      response = EpiphanPearl::Base.create_request nil, nil, false, uri
+
+      key_replacements = {
+        'ageoflastpacket' => :last_package_age,
+        'nosignal'        => :no_signal,
+        'actualbitrate'   => :bitrate,
+        'actualframerate' => :framerate
+      }
+      JSON.parse(response.body).map do |channel_id, info|
+        info.keys.each do |key|
+          info[key_replacements[key] || key.to_sym] = info.delete(key)
+        end
+        info[:channel_id] = channel_id
+        info
+      end
     end
   end
 end

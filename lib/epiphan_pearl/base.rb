@@ -42,8 +42,8 @@ module EpiphanPearl
       value_type.nil? ? result : value_type.post_processing(result)
     end
 
-    def self.create_request(device, params, is_setter)
-      uri  = URI.parse(generate_url(device, params, is_setter))
+    def self.create_request(device, params, is_setter, uri = nil)
+      uri  ||= URI.parse(generate_url(device, params, is_setter))
       http = Net::HTTP.new EpiphanPearl.configuration.ip
 
       request = Net::HTTP::Get.new uri.request_uri
