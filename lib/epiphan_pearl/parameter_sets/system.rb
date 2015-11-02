@@ -52,5 +52,13 @@ module EpiphanPearl
         info
       end
     end
+
+    def system_load
+      uri = URI.parse("http://#{EpiphanPearl.configuration.ip}" +
+                      "/admin/infocfg")
+      response = EpiphanPearl::Base.create_request nil, nil, false, uri
+      system_load = response.body.scan(/Overall system load:\s*(\d+)/).first.first
+      system_load.to_f / 100
+    end
   end
 end
