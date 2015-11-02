@@ -53,7 +53,8 @@ module EpiphanPearl
       end
     end
 
-    def system_load
+    def load
+      # takes a few seconds because website has to be parsed
       uri = URI.parse("http://#{EpiphanPearl.configuration.ip}" +
                       "/admin/infocfg")
       response = EpiphanPearl::Base.create_request nil, nil, false, uri
