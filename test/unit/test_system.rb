@@ -23,6 +23,17 @@ class SystemTest < MiniTest::Test
                              "/username/get_params.cgi?frmcheck_enabled=",
                              :body => "frmcheck_enabled=")
         assert !EpiphanPearl::System.new.firmware_check_enabled
+
+        FakeWeb.register_uri(:get, "http://username:password@123.456.789.012"+
+                             "/ajax/channels_status.cgi",
+                             :body => '{"1":{"ageoflastpacket":0.002,"input":0}}')
+        assert_equal [{:last_package_age=>0.002, :input=>0, :channel_id=>"1"}],
+                     EpiphanPearl::System.new.channel_statuses
+
+        FakeWeb.register_uri(:get, "http://username:password@123.456.789.012"+
+                             "/admin/infocfg",
+                             :body => '<fubar>Overall system load: 69%</fubar>')
+        assert_equal 0.69, EpiphanPearl::System.new.system_load
       end
     end
 
