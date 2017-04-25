@@ -33,7 +33,7 @@ class SystemTest < MiniTest::Test
         FakeWeb.register_uri(:get, "http://username:password@123.456.789.012"+
                              "/admin/infocfg",
                              :body => '<fubar>Overall system load: 69%</fubar>')
-        assert_equal 0.69, EpiphanPearl::System.new.system_load
+        assert_equal 0.69, EpiphanPearl::System.new.load
       end
     end
 

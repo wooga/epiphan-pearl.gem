@@ -1,3 +1,4 @@
+require "cgi"
 require_relative 'epiphan_pearl/base'
 require_relative 'epiphan_pearl/types'
 require_relative 'epiphan_pearl/parameter_set'
