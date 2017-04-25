@@ -4,7 +4,7 @@ module EpiphanPearl
       {
         :key             => "publish_enabled",
         :display_value   => "publish_enabled",
-        :possible_values => ["on", "off"]
+        :value_type   => EpiphanPearl::Types::Boolean
       },
       {
         :key             => "publish_type",
